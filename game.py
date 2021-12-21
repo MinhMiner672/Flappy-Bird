@@ -1,8 +1,6 @@
 import pygame
 import random
-from base import Base
-from bird import Bird
-from pipe import Pipe
+from sprites import *
 import random
 import variables
 

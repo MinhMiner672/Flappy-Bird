@@ -1,5 +1,8 @@
 import pygame
 import variables
+import os
+
+print(os.getcwd())
 
 
 class Bird(pygame.sprite.Sprite):
