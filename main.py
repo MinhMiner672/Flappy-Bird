@@ -22,5 +22,4 @@ while running:
     game.show_score(variables.score, game.WIDTH / 2, 100, False)
     game.fps()
 
-
 pygame.quit()
