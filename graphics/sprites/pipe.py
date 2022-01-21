@@ -1,5 +1,5 @@
 import pygame
-import variables
+from data import variables
 
 
 class Pipe(pygame.sprite.Sprite):
@@ -9,13 +9,13 @@ class Pipe(pygame.sprite.Sprite):
         self.direction = direction
 
         self.image = pygame.transform.scale(pygame.image.load(
-            f'./images/graphics/pipe_{direction}.png').convert_alpha(), (90, 400))
+            f'./data/images/graphics/pipe_{direction}.png').convert_alpha(), (90, 400))
         self.rect = self.image.get_rect(midbottom=(
             x_pos, y_pos)) if direction == 'down' else self.image.get_rect(midtop=(x_pos, y_pos))
 
-        self.point_sound = pygame.mixer.Sound('./sound/point.mp3')
-        self.hit_sound = pygame.mixer.Sound('./sound/hit.mp3')
-        self.die_sound = pygame.mixer.Sound('./sound/die.mp3')
+        self.point_sound = pygame.mixer.Sound('./data/sound/point.mp3')
+        self.hit_sound = pygame.mixer.Sound('./data/sound/hit.mp3')
+        self.die_sound = pygame.mixer.Sound('./data/sound/die.mp3')
 
         self.die_sound.set_volume(0.5)
         self.point_sound.set_volume(0.5)

@@ -1,5 +1,5 @@
 import pygame
-import variables
+from data import variables
 
 
 class Base(pygame.sprite.Sprite):
@@ -10,7 +10,7 @@ class Base(pygame.sprite.Sprite):
     def __init__(self, x_pos: int, y_pos: int, base_group):
         super(Base, self).__init__()
         self.image = pygame.transform.scale(pygame.image.load(
-            './images/graphics/base.png').convert(), (700, 100))
+            './data/images/graphics/base.png').convert(), (700, 100))
         self.rect = self.image.get_rect(bottomleft=(x_pos, y_pos))
 
         self.base_group = base_group

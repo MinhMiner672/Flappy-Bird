@@ -1,6 +1,5 @@
 import pygame
-from game import Game
-import variables
+from graphics import *
 
 game = Game()
 

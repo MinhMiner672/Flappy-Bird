@@ -1,8 +1,5 @@
 import pygame
-import variables
-import os
-
-print(os.getcwd())
+from data import variables
 
 
 class Bird(pygame.sprite.Sprite):
@@ -20,11 +17,11 @@ class Bird(pygame.sprite.Sprite):
 
         # All bird states
         self.bird_flap_up = pygame.transform.scale(pygame.image.load(
-            './images/bird/bird_up.png').convert_alpha(), (55, 40))
+            './data/images/bird/bird_up.png').convert_alpha(), (55, 40))
         self.bird_flap_mid = pygame.transform.scale(pygame.image.load(
-            './images/bird/bird_mid.png').convert_alpha(), (55, 40))
+            './data/images/bird/bird_mid.png').convert_alpha(), (55, 40))
         self.bird_flap_down = pygame.transform.scale(pygame.image.load(
-            './images/bird/bird_down.png').convert_alpha(), (55, 40))
+            './data/images/bird/bird_down.png').convert_alpha(), (55, 40))
         self.bird_state_surfaces = [self.bird_flap_up,
                                     self.bird_flap_mid, self.bird_flap_down]
         self.state_index = 0
@@ -93,8 +90,8 @@ class Bird(pygame.sprite.Sprite):
         """
 
         if self.rect.bottom >= 590:
-            hit_sound = pygame.mixer.Sound('./sound/hit.mp3')
-            die_sound = pygame.mixer.Sound('./sound/die.mp3')
+            hit_sound = pygame.mixer.Sound('./data/sound/hit.mp3')
+            die_sound = pygame.mixer.Sound('./data/sound/die.mp3')
             if not variables.hit_played:
                 hit_sound.play()
                 die_sound.play()

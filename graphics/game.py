@@ -1,8 +1,8 @@
 import pygame
 import random
-from sprites import *
+from .sprites import *
 import random
-import variables
+from data import variables
 
 pygame.init()
 
@@ -19,18 +19,20 @@ class Game:
 
         self.clock = pygame.time.Clock()
 
-        icon_surface = pygame.image.load('./images/icon.ico')
+        icon_surface = pygame.image.load('./data/images/icon.ico')
         pygame.display.set_icon(icon_surface)
 
         # Background surfaces (day, night)
         self.day_background = pygame.transform.scale(
-            pygame.image.load('./images/graphics/day.png').convert(), (500, 800))
+            pygame.image.load('./data/images/graphics/day.png').convert(), (500, 800))
         self.night_background = pygame.transform.scale(
-            pygame.image.load('./images/graphics/night.png').convert(), (500, 800))
+            pygame.image.load('./data/images/graphics/night.png').convert(), (500, 800))
         self.backgrounds = [self.day_background, self.night_background]
 
         # When the game starts, choose a random background, day or night
         self.selected_background = random.choice(self.backgrounds)
+        self.background_rect = self.selected_background.get_rect(
+            topleft=(0, 0))
 
         # Sprite groups
         self.grounds_group = pygame.sprite.Group()
@@ -51,7 +53,7 @@ class Game:
         pygame.time.set_timer(self.pipe_event, 2000)
 
         # Sound effects
-        self.wing_sound = pygame.mixer.Sound('./sound/wing.mp3')
+        self.wing_sound = pygame.mixer.Sound('./data/sound/wing.mp3')
 
         self.wing_sound.set_volume(0.5)
 
@@ -60,8 +62,6 @@ class Game:
         Draws background, ground
         """
 
-        self.background_rect = self.selected_background.get_rect(
-            topleft=(0, 0))
         self.screen.blit(self.selected_background, self.background_rect)
 
     def update_group(self):
@@ -94,41 +94,41 @@ class Game:
             current_score = variables.score
 
             # Access user's highest score data
-            with open('./score.txt', 'r') as f:
+            with open('./data/score.txt', 'r') as f:
                 content = f.read()
                 # If the data syntax in the file is not correct
                 if any(['score:' not in content.lower(), content.strip().split(' ')[0].lower() != 'score:']):
-                    with open('./score.txt', 'w') as f:
+                    with open('./data/score.txt', 'w') as f:
                         # Set the high score as the current score
                         f.write(f'Score: {variables.score}')
 
             # The line after the try keyword might have an error
             # this is due to the wrong value of the score in the 'score.txt'
-            # e.g: "score: 12abc", "Score: abcxyz",....
+            # e.g: "score: 12abc", "Score: abcxyz",..
             try:
                 highest_score = int(content.strip().split(' ')[1])
 
             except ValueError:
                 # Set the highest score as the current score
                 highest_score = current_score
-                with open('./score.txt', 'w') as f:
+                with open('./data/score.txt', 'w') as f:
                     # Overwrite the file
                     f.write(f'Score: {variables.score}')
 
             # Retry button (this button allows you to play the game again)
             retry_button = pygame.image.load(
-                './images/buttons/retry.png').convert()
+                './data/images/buttons/retry.png').convert()
             retry_button_rect = retry_button.get_rect(
                 center=(150, 490))
 
             # Reset button (this button resets your highest score)
             reset_button = pygame.image.load(
-                './images/buttons/reset.png').convert()
+                './data/images/buttons/reset.png').convert()
             reset_button_rect = reset_button.get_rect(center=(350, 490))
 
             # Result Image
             result_image = pygame.transform.scale(pygame.image.load(
-                './images/result.png').convert(), (400, 200))
+                './data/images/result.png').convert(), (400, 200))
             result_image_rect = result_image.get_rect(
                 center=(self.WIDTH / 2, self.HEIGHT / 2))
             # Draw the retry button and the result panel
@@ -143,13 +143,13 @@ class Game:
             # Shows a star to indicate that you just made a new high score
             if current_score > highest_score:
                 star_image = pygame.transform.scale(
-                    pygame.image.load('./images/star.png').convert_alpha(), (35, 35))
+                    pygame.image.load('./data/images/star.png').convert_alpha(), (35, 35))
                 star_rect = star_image.get_rect(center=(350, 320))
                 self.screen.blit(star_image, star_rect)
 
             # If user clicks on the reset button
             if all([reset_button_rect.collidepoint(pygame.mouse.get_pos()), pygame.mouse.get_pressed()[0]]):
-                with open('./score.txt', 'w') as f:
+                with open('./data/score.txt', 'w') as f:
                     f.write('Score: 0')
 
             # If user presses SPACE, KEY UP or clicks on the retry button
@@ -157,7 +157,7 @@ class Game:
                 if current_score > highest_score:
                     # Update the highest score if the current score user got
                     # is higher than it
-                    with open('./score.txt', 'w') as f:
+                    with open('./data/score.txt', 'w') as f:
                         f.write(f'Score: {current_score}')
                 # Refresh the game
                 self.refresh()
@@ -226,7 +226,7 @@ class Game:
 
             for digit in str(score):
                 digit_images.append(pygame.image.load(
-                    f'./images/numbers/{digit}.png').convert_alpha())
+                    f'./data/images/numbers/{digit}.png').convert_alpha())
 
             if len(digit_images) == 1:
                 digit_image_rects.append(
