@@ -8,22 +8,37 @@ class Bird(pygame.sprite.Sprite):
 
     Args:
         pygame (list): The list of obstacle group for the bird
-        to detect whether it collides something that will make 
+        to detect whether it collides something that will make
         user lose the game
     """
 
-    def __init__(self, obstacles: list):
+    def __init__(self, obstacles: list, theme: str):
         super(Bird, self).__init__()
 
         # All bird states
-        self.bird_flap_up = pygame.transform.scale(pygame.image.load(
-            './data/images/bird/bird_up.png').convert_alpha(), (55, 40))
-        self.bird_flap_mid = pygame.transform.scale(pygame.image.load(
-            './data/images/bird/bird_mid.png').convert_alpha(), (55, 40))
-        self.bird_flap_down = pygame.transform.scale(pygame.image.load(
-            './data/images/bird/bird_down.png').convert_alpha(), (55, 40))
-        self.bird_state_surfaces = [self.bird_flap_up,
-                                    self.bird_flap_mid, self.bird_flap_down]
+        self.bird_flap_up = pygame.transform.scale(
+            pygame.image.load(
+                f"./data/images/bird/{theme}/bird_up.png"
+            ).convert_alpha(),
+            (55, 40),
+        )
+        self.bird_flap_mid = pygame.transform.scale(
+            pygame.image.load(
+                f"./data/images/bird/{theme}/bird_mid.png"
+            ).convert_alpha(),
+            (55, 40),
+        )
+        self.bird_flap_down = pygame.transform.scale(
+            pygame.image.load(
+                f"./data/images/bird/{theme}/bird_down.png"
+            ).convert_alpha(),
+            (55, 40),
+        )
+        self.bird_state_surfaces = [
+            self.bird_flap_up,
+            self.bird_flap_mid,
+            self.bird_flap_down,
+        ]
         self.state_index = 0
         self.rotate_index = 3
 
@@ -35,7 +50,7 @@ class Bird(pygame.sprite.Sprite):
         self.lost_rotation = False
 
         self.y_index_for_animation = 0
-        self.up_or_down = 'up'
+        self.up_or_down = "up"
 
         # Create an obstacles list to check if the bird collides any of them
         # this list includes pipes, ground
@@ -43,20 +58,20 @@ class Bird(pygame.sprite.Sprite):
 
     def animation(self):
         """
-        If user has not started the game, the bird will go up and then 
+        If user has not started the game, the bird will go up and then
         go down a little bit, to make animation
         """
 
         if not variables.user_started:
-            if not self.y_index_for_animation > 2 and self.up_or_down == 'up':
+            if not self.y_index_for_animation > 2 and self.up_or_down == "up":
                 self.y_index_for_animation += 0.2
                 if self.y_index_for_animation > 2:
-                    self.up_or_down = 'down'
+                    self.up_or_down = "down"
 
-            elif not self.y_index_for_animation < -2 and self.up_or_down == 'down':
+            elif not self.y_index_for_animation < -2 and self.up_or_down == "down":
                 self.y_index_for_animation -= 0.2
                 if self.y_index_for_animation < -2:
-                    self.up_or_down = 'up'
+                    self.up_or_down = "up"
 
             self.rect.y += int(self.y_index_for_animation)
 
@@ -80,7 +95,8 @@ class Bird(pygame.sprite.Sprite):
                 # Rotates the bird such that the bird's head is
                 # directed towards down the ground
                 self.image = pygame.transform.rotate(
-                    self.image, -90 - self.rotate_index)
+                    self.image, -90 - self.rotate_index
+                )
                 self.lost_rotation = True
 
     def bird_touches_ground(self):
@@ -90,8 +106,8 @@ class Bird(pygame.sprite.Sprite):
         """
 
         if self.rect.bottom >= 590:
-            hit_sound = pygame.mixer.Sound('./data/sound/hit.mp3')
-            die_sound = pygame.mixer.Sound('./data/sound/die.mp3')
+            hit_sound = pygame.mixer.Sound("./data/sound/hit.mp3")
+            die_sound = pygame.mixer.Sound("./data/sound/die.mp3")
             if not variables.hit_played:
                 hit_sound.play()
                 die_sound.play()
