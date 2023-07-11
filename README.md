@@ -1,6 +1,6 @@
 # Flappy Bird
 
-A popular Vietnamese game written in Pygame for fun :)
+A small project that I worked on just to kill time, but still worth it =)))
 
 ## 🔎 Where to install the game
 
